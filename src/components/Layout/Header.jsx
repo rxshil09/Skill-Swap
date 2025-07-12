@@ -1,45 +1,48 @@
-import React, { useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  Menu, 
-  X, 
-  Search, 
-  Bell, 
-  MessageCircle, 
-  User, 
-  Settings, 
-  LogOut, 
-  Sun, 
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Menu,
+  X,
+  Search,
+  Bell,
+  MessageCircle,
+  User,
+  Settings,
+  LogOut,
+  Sun,
   Moon,
   ChevronDown,
-  Zap
-} from 'lucide-react'
-import { useApp } from '../../contexts/AppContext'
+} from "lucide-react";
+import { useApp } from "../../contexts/AppContext";
+import logo from "./images/Logo-main.png";
 
 function Header() {
-  const { user, isAuthenticated, logout, toggleTheme, theme, messages } = useApp()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
-  const location = useLocation()
-  const navigate = useNavigate()
+  const { user, isAuthenticated, logout, toggleTheme, theme, messages } =
+    useApp();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const unreadMessages = messages.filter(msg => !msg.read).length
+  const unreadMessages = messages.filter((msg) => !msg.read).length;
 
   const navigationItems = [
-    { path: '/', label: 'Home' },
-    { path: '/browse', label: 'Browse Skills' },
-    ...(isAuthenticated ? [
-      { path: '/requests', label: 'Requests' },
-      { path: '/messages', label: 'Messages' }
-    ] : [])
-  ]
+    { path: "/", label: "Home" },
+    { path: "/browse", label: "Browse Skills" },
+    ...(isAuthenticated
+      ? [
+          { path: "/requests", label: "Requests" },
+          { path: "/messages", label: "Messages" },
+        ]
+      : []),
+  ];
 
   const handleLogout = () => {
-    logout()
-    navigate('/')
-    setIsProfileMenuOpen(false)
-  }
+    logout();
+    navigate("/");
+    setIsProfileMenuOpen(false);
+  };
 
   return (
     <header className="sticky top-0 z-50 glass dark:glass-dark border-b border-white/20 dark:border-gray-700/30">
@@ -48,7 +51,11 @@ function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 group">
             <div className="relative">
-              <Zap className="h-8 w-8 text-primary-600 dark:text-primary-400 transform group-hover:scale-110 transition-transform duration-200" />
+              <img
+                src={logo}
+                alt="SkillSwap Logo"
+                className="h-8 w-8 object-contain transform group-hover:scale-110 transition-transform duration-200"
+              />
               <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-secondary-500 rounded-full blur-lg opacity-0 group-hover:opacity-30 transition-opacity duration-200" />
             </div>
             <span className="text-2xl font-bold text-gradient">SkillSwap</span>
@@ -62,8 +69,8 @@ function Header() {
                 to={item.path}
                 className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 ${
                   location.pathname === item.path
-                    ? 'text-primary-600 dark:text-primary-400'
-                    : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400'
+                    ? "text-primary-600 dark:text-primary-400"
+                    : "text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
                 }`}
               >
                 {item.label}
@@ -85,7 +92,11 @@ function Header() {
               onClick={toggleTheme}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 hidden sm:block"
             >
-              {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+              {theme === "light" ? (
+                <Moon className="h-5 w-5" />
+              ) : (
+                <Sun className="h-5 w-5" />
+              )}
             </button>
 
             {isAuthenticated ? (
@@ -106,7 +117,7 @@ function Header() {
                 </button>
 
                 {/* Messages */}
-                <Link 
+                <Link
                   to="/messages"
                   className="relative p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
                 >
@@ -125,7 +136,10 @@ function Header() {
                     className="flex items-center space-x-1 md:space-x-2 p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
                   >
                     <img
-                      src={user?.avatar || 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=400'}
+                      src={
+                        user?.avatar ||
+                        "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=400"
+                      }
                       alt={user?.name}
                       className="h-6 w-6 md:h-8 md:w-8 rounded-full object-cover"
                     />
@@ -177,10 +191,7 @@ function Header() {
                 >
                   Login
                 </Link>
-                <Link
-                  to="/signup"
-                  className="btn-primary text-sm px-4 py-2"
-                >
+                <Link to="/signup" className="btn-primary text-sm px-4 py-2">
                   Sign Up
                 </Link>
               </div>
@@ -191,7 +202,11 @@ function Header() {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
             >
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </button>
           </div>
         </div>
@@ -201,7 +216,7 @@ function Header() {
           {isMobileMenuOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
+              animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
               className="lg:hidden border-t border-white/20 dark:border-gray-700/30 pt-4 pb-6"
@@ -212,11 +227,15 @@ function Header() {
                   onClick={toggleTheme}
                   className="flex items-center space-x-3 w-full text-left text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
                 >
-                  {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
-                  <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
+                  {theme === "light" ? (
+                    <Moon className="h-5 w-5" />
+                  ) : (
+                    <Sun className="h-5 w-5" />
+                  )}
+                  <span>{theme === "light" ? "Dark Mode" : "Light Mode"}</span>
                 </button>
               </div>
-              
+
               <div className="space-y-2">
                 {navigationItems.map((item) => (
                   <Link
@@ -224,8 +243,8 @@ function Header() {
                     to={item.path}
                     className={`block px-3 py-2 text-base font-medium rounded-lg transition-colors duration-200 ${
                       location.pathname === item.path
-                        ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20'
-                        : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+                        ? "text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20"
+                        : "text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-800"
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -256,7 +275,7 @@ function Header() {
         </AnimatePresence>
       </nav>
     </header>
-  )
+  );
 }
 
-export default Header
+export default Header;
