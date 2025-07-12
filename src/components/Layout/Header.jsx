@@ -55,7 +55,7 @@ function Header() {
                   to="/admin/login" 
                   className="text-xs text-gray-500 hover:text-gray-400 transition-colors duration-200"
                 >
-                  Admin Access
+                  
                 </Link>
               </div>
             </div>
