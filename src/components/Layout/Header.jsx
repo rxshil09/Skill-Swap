@@ -50,6 +50,14 @@ function Header() {
             <div className="relative">
               <Zap className="h-8 w-8 text-primary-600 dark:text-primary-400 transform group-hover:scale-110 transition-transform duration-200" />
               <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-secondary-500 rounded-full blur-lg opacity-0 group-hover:opacity-30 transition-opacity duration-200" />
+              <div className="mt-2">
+                <Link 
+                  to="/admin/login" 
+                  className="text-xs text-gray-500 hover:text-gray-400 transition-colors duration-200"
+                >
+                  Admin Access
+                </Link>
+              </div>
             </div>
             <span className="text-2xl font-bold text-gradient">SkillSwap</span>
           </Link>
