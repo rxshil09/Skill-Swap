@@ -11,15 +11,24 @@ import {
   Award,
   Users,
   Clock,
-  CheckCircle
+  CheckCircle,
+  Globe,
+  Phone,
+  Mail,
+  Calendar,
+  TrendingUp
 } from 'lucide-react'
 import { useApp } from '../contexts/AppContext'
+import ProfileEditModal from '../components/ui/ProfileEditModal'
+import AvatarUpload from '../components/ui/AvatarUpload'
+import SkillBadge from '../components/ui/SkillBadge'
 
 function Profile() {
   const { id } = useParams()
-  const { user, isAuthenticated, updateProfile } = useApp()
+  const { user, isAuthenticated, updateProfile, deleteSkill } = useApp()
   const [isEditing, setIsEditing] = useState(false)
   const [activeTab, setActiveTab] = useState('offered')
+  const [showEditModal, setShowEditModal] = useState(false)
 
   // Mock user data - in real app, fetch based on id
   const profileUser = user || {
@@ -50,6 +59,14 @@ function Profile() {
 
   const isOwnProfile = !id || (user && user.id === parseInt(id))
 
+  const handleAvatarChange = (newAvatarUrl) => {
+    updateProfile({ avatar: newAvatarUrl })
+  }
+
+  const handleSkillDelete = (skillId) => {
+    deleteSkill(skillId)
+  }
+
   const tabs = [
     { id: 'offered', label: 'Skills Offered', count: profileUser.skillsOffered.length },
     { id: 'wanted', label: 'Skills Wanted', count: profileUser.skillsWanted.length },
@@ -71,15 +88,18 @@ function Profile() {
             {/* Avatar and Basic Info */}
             <div className="text-center mb-6">
               <div className="relative inline-block">
-                <img
-                  src={profileUser.avatar}
-                  alt={profileUser.name}
-                  className="w-24 h-24 rounded-full object-cover ring-4 ring-white dark:ring-gray-700 shadow-lg"
-                />
                 {isOwnProfile && (
-                  <button className="absolute bottom-0 right-0 bg-primary-500 hover:bg-primary-600 text-white p-2 rounded-full shadow-lg transition-colors duration-200">
-                    <Camera className="h-4 w-4" />
-                  </button>
+                  <AvatarUpload
+                    currentAvatar={profileUser.avatar}
+                    onAvatarChange={handleAvatarChange}
+                    size="large"
+                  />
+                ) : (
+                  <img
+                    src={profileUser.avatar}
+                    alt={profileUser.name}
+                    className="w-32 h-32 rounded-full object-cover ring-4 ring-white dark:ring-gray-700 shadow-lg"
+                  />
                 )}
               </div>
               <h1 className="text-2xl font-bold text-gray-900 dark:text-white mt-4">
@@ -101,6 +121,38 @@ function Profile() {
                 </span>
               </div>
             </div>
+
+            {/* Contact Info */}
+            {!isOwnProfile && (
+              <div className="mb-6 space-y-2">
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  Contact Information
+                </h3>
+                {profileUser.website && (
+                  <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                    <Globe className="h-4 w-4" />
+                    <a 
+                      href={profileUser.website} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary-600 dark:text-primary-400 hover:underline"
+                    >
+                      Website
+                    </a>
+                  </div>
+                )}
+                {profileUser.phone && (
+                  <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                    <Phone className="h-4 w-4" />
+                    <span>{profileUser.phone}</span>
+                  </div>
+                )}
+                <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                  <Calendar className="h-4 w-4" />
+                  <span>Joined {profileUser.memberSince}</span>
+                </div>
+              </div>
+            )}
 
             {/* Stats */}
             <div className="grid grid-cols-2 gap-4 mb-6">
@@ -157,7 +209,7 @@ function Profile() {
             <div className="space-y-3">
               {isOwnProfile ? (
                 <button
-                  onClick={() => setIsEditing(true)}
+                  onClick={() => setShowEditModal(true)}
                   className="w-full btn-primary flex items-center justify-center space-x-2"
                 >
                   <Edit3 className="h-4 w-4" />
@@ -217,38 +269,14 @@ function Profile() {
             {activeTab === 'offered' && (
               <div className="space-y-4">
                 {profileUser.skillsOffered.map((skill, index) => (
-                  <motion.div
-                    key={skill.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className="flex items-center justify-between p-4 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-lg border border-primary-200 dark:border-primary-800"
-                  >
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">
-                        {skill.name}
-                      </h4>
-                      <div className="flex items-center space-x-4 mt-1">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          skill.level === 'Expert' 
-                            ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
-                            : skill.level === 'Advanced'
-                            ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200'
-                            : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200'
-                        }`}>
-                          {skill.level}
-                        </span>
-                        <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400">
-                          <Users className="h-3 w-3" />
-                          <span>{skill.students} students</span>
-                        </div>
-                      </div>
-                    </div>
-                    {isOwnProfile && (
-                      <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200">
-                        <Edit3 className="h-4 w-4" />
-                      </button>
-                    )}
+                  <motion.div key={skill.name}>
+                    <SkillBadge
+                      skill={skill}
+                      type="offered"
+                      showStats={true}
+                      onEdit={isOwnProfile ? (skill) => console.log('Edit skill:', skill) : null}
+                      onDelete={isOwnProfile ? handleSkillDelete : null}
+                    />
                   </motion.div>
                 ))}
                 {isOwnProfile && (
@@ -256,6 +284,7 @@ function Profile() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: 0.4 }}
+                    onClick={() => setShowEditModal(true)}
                     className="w-full p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-400 hover:border-primary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 flex items-center justify-center space-x-2"
                   >
                     <Plus className="h-5 w-5" />
@@ -268,34 +297,13 @@ function Profile() {
             {activeTab === 'wanted' && (
               <div className="space-y-4">
                 {profileUser.skillsWanted.map((skill, index) => (
-                  <motion.div
-                    key={skill.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className="flex items-center justify-between p-4 bg-gradient-to-r from-accent-50 to-secondary-50 dark:from-accent-900/20 dark:to-secondary-900/20 rounded-lg border border-accent-200 dark:border-accent-800"
-                  >
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">
-                        {skill.name}
-                      </h4>
-                      <div className="mt-1">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          skill.level === 'Beginner' 
-                            ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200'
-                            : skill.level === 'Intermediate'
-                            ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200'
-                            : 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
-                        }`}>
-                          Seeking {skill.level}
-                        </span>
-                      </div>
-                    </div>
-                    {isOwnProfile && (
-                      <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200">
-                        <Edit3 className="h-4 w-4" />
-                      </button>
-                    )}
+                  <motion.div key={skill.name}>
+                    <SkillBadge
+                      skill={skill}
+                      type="wanted"
+                      onEdit={isOwnProfile ? (skill) => console.log('Edit skill:', skill) : null}
+                      onDelete={isOwnProfile ? handleSkillDelete : null}
+                    />
                   </motion.div>
                 ))}
                 {isOwnProfile && (
@@ -303,6 +311,7 @@ function Profile() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: 0.4 }}
+                    onClick={() => setShowEditModal(true)}
                     className="w-full p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-400 hover:border-accent-400 hover:text-accent-600 dark:hover:text-accent-400 transition-colors duration-200 flex items-center justify-center space-x-2"
                   >
                     <Plus className="h-5 w-5" />
@@ -314,6 +323,34 @@ function Profile() {
 
             {activeTab === 'reviews' && (
               <div className="space-y-6">
+                {/* Review Summary */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div className="text-center p-4 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-lg">
+                    <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">
+                      {profileUser.rating}
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                      Average Rating
+                    </div>
+                  </div>
+                  <div className="text-center p-4 bg-gradient-to-r from-secondary-50 to-accent-50 dark:from-secondary-900/20 dark:to-accent-900/20 rounded-lg">
+                    <div className="text-2xl font-bold text-secondary-600 dark:text-secondary-400">
+                      {profileUser.reviewCount}
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                      Total Reviews
+                    </div>
+                  </div>
+                  <div className="text-center p-4 bg-gradient-to-r from-accent-50 to-primary-50 dark:from-accent-900/20 dark:to-primary-900/20 rounded-lg">
+                    <div className="text-2xl font-bold text-accent-600 dark:text-accent-400">
+                      95%
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                      Positive
+                    </div>
+                  </div>
+                </div>
+
                 {/* Mock reviews */}
                 {[
                   {
@@ -334,7 +371,7 @@ function Profile() {
                   }
                 ].map((review, index) => (
                   <motion.div
-                    key={index}
+                    key={skill.name}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -377,6 +414,36 @@ function Profile() {
 
             {activeTab === 'activity' && (
               <div className="space-y-4">
+                {/* Activity Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                  <div className="p-4 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <TrendingUp className="h-8 w-8 text-primary-600 dark:text-primary-400" />
+                      <div>
+                        <div className="text-lg font-bold text-gray-900 dark:text-white">
+                          {profileUser.completedSwaps}
+                        </div>
+                        <div className="text-sm text-gray-600 dark:text-gray-400">
+                          Successful Swaps
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                  <div className="p-4 bg-gradient-to-r from-secondary-50 to-accent-50 dark:from-secondary-900/20 dark:to-accent-900/20 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <Clock className="h-8 w-8 text-secondary-600 dark:text-secondary-400" />
+                      <div>
+                        <div className="text-lg font-bold text-gray-900 dark:text-white">
+                          {profileUser.activeSwaps}
+                        </div>
+                        <div className="text-sm text-gray-600 dark:text-gray-400">
+                          Active Swaps
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Mock activity */}
                 {[
                   {
@@ -424,6 +491,13 @@ function Profile() {
           </motion.div>
         </div>
       </div>
+
+      {/* Profile Edit Modal */}
+      <ProfileEditModal
+        isOpen={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        user={profileUser}
+      />
     </div>
   )
 }

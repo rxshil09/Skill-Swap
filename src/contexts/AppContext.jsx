@@ -213,6 +213,38 @@ function appReducer(state, action) {
         ...state,
         skills: state.skills.filter(skill => skill.id !== action.payload)
       }
+    case 'ADD_USER_SKILL_OFFERED':
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          skillsOffered: [...(state.user?.skillsOffered || []), action.payload]
+        }
+      }
+    case 'ADD_USER_SKILL_WANTED':
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          skillsWanted: [...(state.user?.skillsWanted || []), action.payload]
+        }
+      }
+    case 'REMOVE_USER_SKILL_OFFERED':
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          skillsOffered: (state.user?.skillsOffered || []).filter(skill => skill.id !== action.payload)
+        }
+      }
+    case 'REMOVE_USER_SKILL_WANTED':
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          skillsWanted: (state.user?.skillsWanted || []).filter(skill => skill.id !== action.payload)
+        }
+      }
     case 'SEND_SWAP_REQUEST':
       return {
         ...state,
@@ -317,6 +349,18 @@ export function AppProvider({ children }) {
     toast.success('Skill deleted successfully')
   }
 
+  const addUserSkill = (skillData, type) => {
+    const action = type === 'offered' ? 'ADD_USER_SKILL_OFFERED' : 'ADD_USER_SKILL_WANTED'
+    dispatch({ type: action, payload: skillData })
+    toast.success(`Skill added to ${type} list`)
+  }
+
+  const removeUserSkill = (skillId, type) => {
+    const action = type === 'offered' ? 'REMOVE_USER_SKILL_OFFERED' : 'REMOVE_USER_SKILL_WANTED'
+    dispatch({ type: action, payload: skillId })
+    toast.success('Skill removed')
+  }
+
   const sendSwapRequest = (requestData) => {
     dispatch({ type: 'SEND_SWAP_REQUEST', payload: requestData })
     toast.success('Swap request sent successfully')
@@ -349,6 +393,8 @@ export function AppProvider({ children }) {
     addSkill,
     updateSkill,
     deleteSkill,
+    addUserSkill,
+    removeUserSkill,
     sendSwapRequest,
     updateSwapRequest,
     sendMessage,
