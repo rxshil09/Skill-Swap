@@ -12,6 +12,7 @@ import {
   Circle
 } from 'lucide-react'
 import { useApp } from '../contexts/AppContext'
+import { motion } from 'framer-motion'
 
 function Messages() {
   const { messages, markMessageRead, sendMessage } = useApp()
@@ -210,7 +211,12 @@ function Messages() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8 h-[calc(100vh-8rem)] md:h-[calc(100vh-12rem)]">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8"
+      >
         {/* Conversations Sidebar */}
         <div className="lg:col-span-1 h-full">
           <motion.div
@@ -434,7 +440,7 @@ function Messages() {
             </motion.div>
           )}
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }
