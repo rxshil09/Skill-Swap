@@ -347,9 +347,7 @@ function Messages() {
                     <button className="p-1.5 md:p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200 hidden sm:block">
                       <Phone className="h-4 w-4 md:h-5 md:w-5" />
                     </button>
-                    <button className="p-1.5 md:p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200 hidden sm:block">
-                      <Video className="h-4 w-4 md:h-5 md:w-5" />
-                    </button>
+                    
                     <button className="p-1.5 md:p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
                       <MoreVertical className="h-4 w-4 md:h-5 md:w-5" />
                     </button>

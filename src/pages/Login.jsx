@@ -31,8 +31,16 @@ function Login() {
       avatar: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=400',
       location: 'San Francisco, CA',
       rating: 4.8,
-      skillsOffered: ['Web Development', 'React', 'Node.js'],
-      skillsWanted: ['Design', 'Photography', 'Spanish'],
+      skillsOffered: [
+        { id: 1, name: 'Web Development', category: 'Technology', level: 'Expert' },
+        { id: 2, name: 'React', category: 'Technology', level: 'Expert' },
+        { id: 3, name: 'Node.js', category: 'Technology', level: 'Advanced' }
+      ],
+      skillsWanted: [
+        { id: 4, name: 'Design', category: 'Creative', level: 'Beginner' },
+        { id: 5, name: 'Photography', category: 'Creative', level: 'Intermediate' },
+        { id: 6, name: 'Spanish', category: 'Language', level: 'Beginner' }
+      ],
       bio: 'Full-stack developer passionate about creating amazing web experiences.'
     }
 
