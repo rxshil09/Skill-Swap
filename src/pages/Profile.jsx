@@ -371,7 +371,7 @@ function Profile() {
                   }
                 ].map((review, index) => (
                   <motion.div
-                    key={skill.name}
+                    key={review.reviewer}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -441,7 +441,7 @@ function Profile() {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
 
                 {/* Mock activity */}
@@ -493,7 +493,12 @@ function Profile() {
       </div>
 
       {/* Profile Edit Modal */}
-      <ProfileEditModal
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="p-4 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-lg"
+                  >
         isOpen={showEditModal}
         onClose={() => setShowEditModal(false)}
         user={profileUser}
