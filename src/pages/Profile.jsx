@@ -428,7 +428,7 @@ function Profile() {
                         </div>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                   <div className="p-4 bg-gradient-to-r from-secondary-50 to-accent-50 dark:from-secondary-900/20 dark:to-accent-900/20 rounded-lg">
                     <div className="flex items-center space-x-3">
                       <Clock className="h-8 w-8 text-secondary-600 dark:text-secondary-400" />
@@ -441,7 +441,7 @@ function Profile() {
                         </div>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 </div>
 
                 {/* Mock activity */}
@@ -493,12 +493,7 @@ function Profile() {
       </div>
 
       {/* Profile Edit Modal */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="p-4 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-lg"
-                  >
+      <ProfileEditModal
         isOpen={showEditModal}
         onClose={() => setShowEditModal(false)}
         user={profileUser}
