@@ -88,7 +88,7 @@ function Profile() {
             {/* Avatar and Basic Info */}
             <div className="text-center mb-6">
               <div className="relative inline-block">
-                {isOwnProfile && (
+                {isOwnProfile ? (
                   <AvatarUpload
                     currentAvatar={profileUser.avatar}
                     onAvatarChange={handleAvatarChange}
