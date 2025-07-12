@@ -17,7 +17,7 @@ const messageRoutes = require('./routes/messageRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 
 // Import middleware
-const errorHandler = require('./middleware/errorHandler');
+const {errorHandler}= require('./middleware/errorHandler');
 const { notFound } = require('./middleware/errorHandler');
 
 // Import socket handlers
