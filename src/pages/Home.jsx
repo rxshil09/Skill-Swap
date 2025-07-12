@@ -87,10 +87,7 @@ function Home() {
   ]
 
   const stats = [
-    { label: 'Active Users', value: '10,000+' },
-    { label: 'Skills Exchanged', value: '25,000+' },
-    { label: 'Success Rate', value: '95%' },
-    { label: 'Countries', value: '50+' }
+   
   ]
 
   return (
@@ -163,10 +160,7 @@ function Home() {
                 <span>Get Started</span>
                 <ArrowRight className="h-4 w-4 md:h-5 md:w-5 transform group-hover:translate-x-1 transition-transform duration-200" />
               </Link>
-              <button className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 group w-full sm:w-auto justify-center">
-                <PlayCircle className="h-5 w-5 md:h-6 md:w-6" />
-                <span className="text-base md:text-lg font-medium">Watch Demo</span>
-              </button>
+              
             </motion.div>
           </div>
         </div>
