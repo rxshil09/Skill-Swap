@@ -7,7 +7,7 @@ import SkillCard from '../components/ui/SkillCard'
 import SearchFilters from '../components/ui/SearchFilters'
 
 function Browse() {
-  const { skills, isAuthenticated, searchFilters, categories } = useApp()
+  const { skills, isAuthenticated, searchFilters, categories, sendSwapRequest } = useApp()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '')
