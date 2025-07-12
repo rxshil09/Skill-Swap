@@ -24,8 +24,13 @@ import { useAdmin } from './contexts/AdminContext'
 
 function AdminRoutes() {
   const { isAdminAuthenticated } = useAdmin()
+  const location = useLocation()
 
-  if (!isAdminAuthenticated) {
+  if (!isAdminAuthenticated && location.pathname !== '/admin/login') {
+    return <AdminLogin />
+  }
+
+  if (location.pathname === '/admin/login') {
     return <AdminLogin />
   }
 
@@ -50,6 +55,7 @@ function App() {
       <AdminProvider>
         <Routes>
           {/* Admin Routes */}
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/*" element={<AdminRoutes />} />
           
           {/* Regular App Routes */}
