@@ -12,7 +12,7 @@ import {
   Circle
 } from 'lucide-react'
 import { useApp } from '../contexts/AppContext'
-import { motion } from 'framer-motion'
+
 
 function Messages() {
   const { messages, markMessageRead, sendMessage } = useApp()
