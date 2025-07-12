@@ -71,13 +71,13 @@ function Browse() {
     
     // Create swap request
     const requestData = {
-      requester: {
-        id: 1, // Current user ID
-        name: 'Current User',
-        avatar: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=400'
+      recipient: {
+        id: skill.user.id,
+        name: skill.user.name,
+        avatar: skill.user.avatar
       },
       skillRequested: skill.title,
-      skillOffered: 'Your Skill', // This would come from a modal/form
+      skillOffered: 'Web Development', // This would come from a modal/form in real app
       status: 'pending',
       message: `Hi! I'm interested in learning ${skill.title}. Would you like to exchange skills?`,
       createdAt: new Date().toISOString()

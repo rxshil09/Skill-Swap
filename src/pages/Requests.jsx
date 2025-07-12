@@ -19,13 +19,19 @@ function Requests() {
 
   // Mock additional requests for demo
   const allRequests = [
-    ...swapRequests,
+    ...swapRequests.filter(req => req.type === 'received'),
     {
       id: 3,
+      type: 'received',
       requester: {
         id: 4,
         name: 'Maria Garcia',
         avatar: 'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=400'
+      },
+      recipient: {
+        id: 1,
+        name: 'Alex Johnson',
+        avatar: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=400'
       },
       skillRequested: 'JavaScript',
       skillOffered: 'Spanish Tutoring',
@@ -35,10 +41,16 @@ function Requests() {
     },
     {
       id: 4,
+      type: 'received',
       requester: {
         id: 5,
         name: 'David Kim',
         avatar: 'https://images.pexels.com/photos/697509/pexels-photo-697509.jpeg?auto=compress&cs=tinysrgb&w=400'
+      },
+      recipient: {
+        id: 1,
+        name: 'Alex Johnson',
+        avatar: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=400'
       },
       skillRequested: 'React',
       skillOffered: 'Photography',
@@ -50,8 +62,15 @@ function Requests() {
 
   // Mock sent requests
   const sentRequests = [
+    ...swapRequests.filter(req => req.type === 'sent'),
     {
       id: 5,
+      type: 'sent',
+      requester: {
+        id: 1,
+        name: 'Alex Johnson',
+        avatar: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=400'
+      },
       recipient: {
         id: 6,
         name: 'Emma Wilson',
@@ -65,6 +84,12 @@ function Requests() {
     },
     {
       id: 6,
+      type: 'sent',
+      requester: {
+        id: 1,
+        name: 'Alex Johnson',
+        avatar: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=400'
+      },
       recipient: {
         id: 7,
         name: 'John Smith',

@@ -114,10 +114,16 @@ const initialState = {
   swapRequests: [
     {
       id: 1,
+      type: 'received', // Add type to distinguish sent vs received
       requester: {
         id: 2,
         name: 'Sarah Chen',
         avatar: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400'
+      },
+      recipient: {
+        id: 1,
+        name: 'Alex Johnson',
+        avatar: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=400'
       },
       skillRequested: 'Web Development',
       skillOffered: 'Graphic Design',
@@ -127,10 +133,16 @@ const initialState = {
     },
     {
       id: 2,
+      type: 'received',
       requester: {
         id: 3,
         name: 'Mike Rodriguez',
         avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400'
+      },
+      recipient: {
+        id: 1,
+        name: 'Alex Johnson',
+        avatar: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=400'
       },
       skillRequested: 'Photography',
       skillOffered: 'Guitar Lessons',
@@ -248,7 +260,16 @@ function appReducer(state, action) {
     case 'SEND_SWAP_REQUEST':
       return {
         ...state,
-        swapRequests: [...state.swapRequests, { ...action.payload, id: Date.now() }]
+        swapRequests: [...state.swapRequests, { 
+          ...action.payload, 
+          id: Date.now(),
+          type: 'sent',
+          requester: {
+            id: state.user?.id || 1,
+            name: state.user?.name || 'Current User',
+            avatar: state.user?.avatar || 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=400'
+          }
+        }]
       }
     case 'UPDATE_SWAP_REQUEST':
       return {
