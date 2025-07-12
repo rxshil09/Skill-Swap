@@ -9,7 +9,8 @@ import {
   Phone,
   Video,
   MoreVertical,
-  Circle
+  Circle,
+  MessageCircle
 } from 'lucide-react'
 import { useApp } from '../contexts/AppContext'
 
